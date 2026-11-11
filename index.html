@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+<script>window.API_URL='https://script.google.com/macros/s/AKfycbxKnwJeLLTm-H6e6IeFooOHbNvRen1U-JJmw60BNr_og1iF2xK5XhQG3hTKKThrya2V/exec';</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Лига</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%E2%9A%BD%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;800&family=Barlow+Condensed:wght@600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--c1:#072337;--c2:#fefefe;--ac:#ff4343;
+--bg:var(--c1);--fg:var(--c2);--card:color-mix(in srgb,var(--c1) 90%,var(--c2));--line:color-mix(in srgb,var(--c1) 78%,var(--c2));--mut:color-mix(in srgb,var(--c2) 58%,var(--c1));
+--glow:color-mix(in srgb,var(--ac) 34%,transparent);--glow2:color-mix(in srgb,var(--c2) 10%,transparent);--dk:color-mix(in srgb,var(--c1) 80%,#000);--sa:env(safe-area-inset-bottom,0px);--st:env(safe-area-inset-top,0px)}
+:root[data-theme="light"]{--bg:color-mix(in srgb,var(--c2) 94%,var(--c1));--fg:var(--c1);--card:var(--c2);--line:color-mix(in srgb,var(--c2) 84%,var(--c1));--mut:color-mix(in srgb,var(--c1) 60%,var(--c2));--glow:color-mix(in srgb,var(--ac) 22%,transparent);--glow2:color-mix(in srgb,var(--c1) 8%,transparent)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 16px/1.5 Inter,system-ui,sans-serif;overflow-x:hidden;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit}.d{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:800;letter-spacing:-.01em}
+/* шрифт заголовков — Unbounded, жирный */
+h1.d,h2.d,h3.d,.br{font-family:'Unbounded','Arial Black',sans-serif;font-weight:800;letter-spacing:-.02em}
+[data-go],[data-team]{cursor:pointer}
+#cur{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity .7s;background:radial-gradient(560px circle at var(--gx,50%) var(--gy,50%),color-mix(in srgb,var(--ac) 30%,transparent),transparent 65%)}#cur.on{opacity:1}
+nav{position:fixed;top:var(--st);left:0;right:0;z-index:9;height:56px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 max(20px,4vw);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);background:color-mix(in srgb,var(--bg) 72%,transparent);border-bottom:1px solid var(--line)}
+.br{display:flex;align-items:center;gap:10px;font-size:17px}.br img{height:32px;width:auto}.br span{white-space:nowrap}
+.nl{display:flex;gap:22px;font-size:14px;margin-left:auto}.nl a{color:var(--mut);transition:color .2s}.nl a:hover{color:var(--fg)}
+#th{border:1px solid var(--line);background:var(--card);width:34px;height:34px;border-radius:50%;cursor:pointer;flex:none}
+#bar{display:none}
+.hero{position:relative}
+.stick{position:relative;min-height:100vh;min-height:100svh;display:grid;place-items:center;overflow:hidden;text-align:center}
+.glow{position:absolute;inset:-20%;-webkit-mask-image:linear-gradient(#000 55%,transparent 85%);mask-image:linear-gradient(#000 55%,transparent 85%);background:radial-gradient(40% 40% at 25% 35%,var(--glow),transparent),radial-gradient(45% 45% at 78% 70%,var(--glow2),transparent);animation:drift 14s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(4%,-3%) scale(1.12)}}
+.ht{position:relative;z-index:1;width:100%;max-width:980px;padding:64px 20px 20px;will-change:transform,opacity}
+.hl{height:min(30vh,260px);display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.lw{position:relative;display:inline-block;line-height:0}
+.hl img{display:block;height:min(30vh,260px);width:auto;max-width:70vw;object-fit:contain;filter:drop-shadow(0 18px 40px var(--glow))}.hl img[hidden]{display:none}
+.lw canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hb{font-family:'Unbounded','Arial Black',sans-serif;font-weight:800;font-size:clamp(40px,10vw,96px);line-height:.95;color:transparent;-webkit-text-stroke:2px var(--ac);background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.8) 50%,transparent 58%) 200% 0/250% 100% no-repeat;-webkit-background-clip:text;background-clip:text;animation:glintT 6s 1.2s ease-in-out infinite}
+@keyframes glintT{0%,72%{background-position:200% 0}100%{background-position:-100% 0}}
+.ht small{color:var(--mut);font-size:15px}
+.ht h1{margin:.1em 0 .1em;font-size:clamp(28px,5.6vw,68px);line-height:1.05;background:linear-gradient(100deg,var(--fg) 40%,var(--ac) 50%,var(--fg) 60%) 0 0/250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s 1s ease-in-out infinite}
+@keyframes shine{to{background-position:-150% 0}}
+.ht p{margin:0 auto;max-width:44ch;color:var(--mut);font-size:clamp(14px,1.8vw,19px)}
+.kpi{display:flex;gap:clamp(22px,6vw,64px);justify-content:center;margin:22px 0 18px}
+.kpi div{font-size:clamp(34px,6vw,60px);line-height:1}.kpi span{display:block;font:500 12px Inter;color:var(--mut);margin-top:4px}
+.hw{max-width:760px;margin:0 auto}
+.tc,.tk{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px;-webkit-overflow-scrolling:touch}.tc::-webkit-scrollbar,.tk::-webkit-scrollbar{display:none}
+.tc{margin-bottom:10px}.tk{scroll-snap-type:x proximity}
+.tc button,.tabs button{flex:none;border:1px solid var(--line);background:var(--card);padding:7px 15px;border-radius:99px;font:500 14px Inter;cursor:pointer;transition:all .25s;white-space:nowrap}
+.tc button.on,.tabs button.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.mi{flex:none;scroll-snap-align:start;min-width:210px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:13px;font-weight:600;animation:up .5s both}
+.mi b{font-size:24px;line-height:1}.mi span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@keyframes up{from{opacity:0;transform:translateY(14px)}}
+.pl{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap}.pl a{color:var(--mut);font-size:14px;border-bottom:1px dashed var(--line);padding:2px 2px}.pl a:hover{color:var(--ac)}
+.cue{position:absolute;bottom:calc(20px + var(--sa));left:50%;width:22px;height:34px;margin-left:-11px;border:2px solid var(--mut);border-radius:12px;opacity:.5}
+.cue:after{content:"";position:absolute;left:8px;top:6px;width:2px;height:7px;background:var(--mut);animation:dot 1.6s infinite}@keyframes dot{60%{transform:translateY(12px);opacity:0}}
+section{max-width:1080px;margin:0 auto;padding:clamp(36px,5vw,64px) max(16px,4vw) 0;scroll-margin-top:30px}
+h2{font-size:clamp(28px,5vw,60px);line-height:1.05;margin:0 0 .5em}
+.rv{opacity:0;transform:translateY(50px) scale(.97);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);transition-delay:calc(var(--i,0)*45ms)}.rv.in{opacity:1;transform:none}
+.no,.empty{color:var(--mut)}.empty{padding:28px 20px;text-align:center}
+.err{margin:120px auto;max-width:420px;text-align:center;padding:28px;border:1px solid var(--ac);border-radius:18px}.err button{margin-top:12px;border:0;background:var(--ac);color:#fff;border-radius:99px;padding:8px 20px;cursor:pointer}
+.tb{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.r{display:grid;grid-template-columns:44px 1fr repeat(6,40px) 52px 52px 86px;align-items:center;padding:12px 18px;border-top:1px solid var(--line);font-variant-numeric:tabular-nums;transition:background .2s}
+.r:not(.h):hover{background:color-mix(in srgb,var(--ac) 9%,transparent)}.r.h{border:0;font-size:13px;color:var(--mut)}
+.r .t{display:flex;align-items:center;gap:12px;font-weight:600;min-width:0}.r .t span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.r>*:not(.t){text-align:center}.r .p{font-weight:800;color:var(--mut)}.r .pt{font-weight:800;font-size:18px}
+.z1{box-shadow:inset 3px 0 0 #f5b301}.z1 .p{color:#f5b301}.z2{box-shadow:inset 3px 0 0 var(--ac)}.z2 .p{color:var(--ac)}
+.b{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;flex:none;font:800 15px 'Barlow Condensed';color:#fff;box-shadow:inset 0 -6px 10px rgba(0,0,0,.25);position:relative;overflow:hidden}
+.b img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;padding:2px}
+.f{display:flex;gap:3px;justify-content:center}.f i{width:9px;height:9px;border-radius:50%}.W{background:#22c55e}.D{background:#f59e0b}.L{background:#ef4444}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.day{font-weight:600;color:var(--mut);margin:24px 0 10px;text-transform:capitalize}
+.m{display:grid;grid-template-columns:56px 1fr 110px 1fr;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 18px;margin-bottom:8px}
+.mt{color:var(--mut);font-size:14px}.m .a,.m .z{display:flex;align-items:center;gap:10px;font-weight:600}.m .a{justify-content:flex-end;text-align:right}.m .w{color:var(--ac)}
+.m .s{text-align:center;font-size:34px;line-height:1}.m .s small{display:block;font:500 11px Inter;color:var(--mut);margin-top:3px}.m.u .s{color:var(--mut)}
+.cw{overflow-x:auto}.cx{border-collapse:collapse;width:100%;min-width:720px;font-variant-numeric:tabular-nums}.cx th,.cx td{border:1px solid var(--line);padding:8px;text-align:center;font-weight:500}
+.cx .l div{display:flex;align-items:center;gap:10px;white-space:nowrap;text-align:left}.cx td.x{background:color-mix(in srgb,var(--fg) 8%,transparent)}.Wt{color:#22c55e}.Lt{color:#ef4444}
+.pg{display:grid;grid-template-columns:44px 30px 1fr auto;align-items:center;gap:14px;padding:14px 18px;border-top:1px solid var(--line)}.pg .p{font-weight:800;color:var(--mut);text-align:center}
+.pn small{color:var(--mut);font-size:13px}.bar{height:6px;border-radius:9px;background:var(--line);overflow:hidden;margin:6px 0 4px}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ac),color-mix(in srgb,var(--ac) 50%,#fff));border-radius:9px;transition:width 1.4s cubic-bezier(.16,1,.3,1) .2s}.in .bar i{width:var(--w)}
+.cs{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.cs i{width:30px;height:30px;display:grid;place-items:center;font:800 15px 'Barlow Condensed';font-style:normal;color:#fff;transform:skewX(-14deg);border-radius:3px}.cs i.W{background:#22c55e}.cs i.D{background:#64748b}.cs i.L{background:#ef4444}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px}
+.cd{position:relative;border-radius:18px;overflow:hidden;background:var(--dk);color:#fff;padding:16px 14px;text-align:center;isolation:isolate;border:1px solid color-mix(in srgb,var(--ac) 18%,transparent)}
+.cd:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(115deg,color-mix(in srgb,var(--ac) 60%,transparent) 0 30%,transparent 30.3%)}
+.cd:after{content:"";position:absolute;inset:0;z-index:-1;opacity:0;transition:opacity .3s;background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.14),transparent 60%)}.cd:hover:after{opacity:1}
+.cd em{position:absolute;left:14px;top:8px;font-size:42px;font-style:normal;line-height:1;opacity:.85}
+.ph{position:relative;width:124px;height:124px;margin:18px auto 12px;border-radius:50%;background:#2b3250;display:grid;place-items:center;font:800 40px 'Barlow Condensed';transition:transform .25s ease-out;transform:translate(var(--px,0),var(--py,0))}
+.ph>img{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;object-fit:cover}.ph .tl{position:absolute;right:-10px;top:-6px}.ph .tl .b{width:42px;height:42px;border:3px solid var(--dk)}
+.ph.big{background:none}.ph.big .b{width:124px;height:124px;font-size:52px}
+.nm{font:600 21px 'Barlow Condensed';margin-bottom:12px}.st{display:flex;justify-content:space-around}.st small{display:block;color:#a8b0c8;font-size:12px}.st b{font-size:28px;font-weight:600}
+.cd.t .st{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 0;background:rgba(255,255,255,.08);margin:0 -14px -16px;padding:14px 8px}
+.dq{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:12px;display:grid;grid-template-columns:1fr auto;gap:6px 20px}
+.dq b{font-size:18px}.dq span{color:var(--mut);font-size:14px}.dq em{font:800 34px 'Barlow Condensed';font-style:normal;grid-row:span 2;align-self:center}
+footer{max-width:1080px;margin:0 auto;padding:90px 20px calc(60px + var(--sa));color:var(--mut);font-size:13px}
+/* карточка команды: раскрытие кругом из точки нажатия */
+.sheet{position:fixed;inset:0;z-index:20;background:var(--bg);overflow:auto;clip-path:circle(0 at var(--cx,50%) var(--cy,50%));visibility:hidden;transition:clip-path .75s cubic-bezier(.7,0,.2,1),visibility 0s .75s}
+.sheet.on{clip-path:circle(150vmax at var(--cx,50%) var(--cy,50%));visibility:visible;transition-delay:0s}
+.sheet .x{position:absolute;top:calc(14px + var(--st));right:16px;z-index:2;width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.18);color:#fff;font-size:16px;cursor:pointer}
+.th{position:relative;display:flex;align-items:center;flex-wrap:wrap;gap:24px;padding:calc(52px + var(--st)) max(20px,4vw) 32px;background:radial-gradient(70% 140% at 95% 0,color-mix(in srgb,var(--tc,var(--ac)) 55%,transparent),transparent),linear-gradient(115deg,var(--dk) 0 62%,color-mix(in srgb,var(--c1) 70%,var(--ac)));color:#fff;overflow:hidden}
+.th .bg .b{width:110px;height:110px;font-size:48px;animation:land .9s cubic-bezier(.16,1,.3,1) .35s both}@keyframes land{from{transform:scale(.3) rotate(-25deg);opacity:0}}
+.th h3{margin:0;font-size:clamp(24px,4.2vw,46px);line-height:1.1;animation:up .7s .45s both}.ts{color:#b6bfd6;animation:up .7s .55s both}
+.tk2{margin-left:auto;text-align:right;color:#d3d9ea;animation:up .7s .6s both}.tk2 b{font-size:32px;margin-right:8px;color:#fff}
+.tmb{max-width:1080px;margin:0 auto;padding:12px max(16px,4vw) calc(60px + var(--sa))}
+.tr{display:grid;grid-template-columns:50px 70px 1fr 190px repeat(5,48px);align-items:center;padding:10px 4px;border-top:1px solid var(--line);font-variant-numeric:tabular-nums;animation:up .5s both;animation-delay:calc(.5s + var(--i,0)*35ms)}
+.tr.h{border:0;color:var(--mut);font-size:13px;animation:none}.tr>:not(.pn2){text-align:center}
+.pn2{display:flex;align-items:center;gap:12px;font-weight:600;min-width:0}.av{width:38px;height:38px;border-radius:50%;background:var(--line);display:grid;place-items:center;font:800 14px 'Barlow Condensed';position:relative;overflow:hidden;flex:none}.av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.tr.h .yc:before,.tr.h .rc:before{content:"";display:inline-block;width:12px;height:16px;border-radius:2px;background:#f59e0b}.tr.h .rc:before{background:#ef4444}
+@media(max-width:720px){
+nav{height:50px}.nl{display:none}.br{font-size:15px}.br img{height:28px}
+.ht{padding-top:58px}.hl,.hl img{height:min(22vh,170px)}.kpi{margin:14px 0 12px}.pl{display:none}.cue{display:none}
+.mi{min-width:178px}
+section{padding-top:36px}h2{font-size:28px}
+#bar{display:flex;position:fixed;left:10px;right:10px;bottom:calc(8px + var(--sa));z-index:9;justify-content:space-around;padding:8px 4px;border-radius:22px;border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 78%,transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+#bar a{display:grid;justify-items:center;gap:1px;font-size:11px;color:var(--mut);padding:2px 10px;min-width:60px}#bar i{font-style:normal;font-size:18px;line-height:1.2}#bar a:active{color:var(--ac)}
+footer{padding-bottom:calc(90px + var(--sa))}.tmb{padding-bottom:calc(30px + var(--sa))}
+.r{grid-template-columns:28px 1fr 32px 32px 40px 62px;padding:11px 12px}.r>:nth-child(n+4):nth-child(-n+8){display:none}.r .t span{font-size:15px}
+.m{grid-template-columns:1fr 84px 1fr;padding:12px}.mt{grid-column:1/-1}.m .s{font-size:26px}
+.pg{grid-template-columns:28px 30px 1fr;padding:12px}.cs{grid-column:1/-1;justify-content:flex-start}
+.cards{grid-template-columns:repeat(2,1fr);gap:10px}.ph{width:92px;height:92px;font-size:30px;margin-top:20px}.ph .tl .b{width:32px;height:32px}.ph.big .b{width:92px;height:92px;font-size:38px}.nm{font-size:18px}.st b{font-size:22px}
+.tr{grid-template-columns:30px 40px 1fr repeat(5,32px);padding:9px 0}.tr>:nth-child(4){display:none}.tk2{margin-left:0;text-align:left}.th{gap:16px}.th .bg .b{width:80px;height:80px}
+}
+@media(prefers-reduced-motion:reduce){.rv{transition:none;opacity:1;transform:none}.glow,.cue:after,.hb,.ht h1{animation:none}#cur{display:none}.bar i{transition:none}.sheet{transition-duration:.01s}}
+</style></head><body>
+<div id="cur"></div>
+<nav><b class="d br"><img id="lg" alt="" hidden><span id="brand"></span></b>
+<div class="nl"><a data-go="table">Таблица</a><a data-go="games">Игры</a><a data-go="stats">Статистика</a><a data-go="disq">Дисквалификации</a></div>
+<button id="th" aria-label="Сменить тему">◐</button></nav>
+<div id="bar"><a data-go="table"><i>≣</i>Таблица</a><a data-go="games"><i>⚽</i>Игры</a><a data-go="stats"><i>★</i>Статистика</a><a data-go="disq"><i>⛔</i>Дисквал.</a></div>
+<header class="hero"><div class="stick"><div class="glow"></div>
+<div class="ht" id="ht"><div class="hl" id="hl"><span class="lw"><img id="hlg" alt="" hidden><canvas id="hlc"></canvas></span><div class="hb d" id="hb"></div></div>
+<small id="sea"></small><h1 class="d" id="h1"></h1><p id="desc"></p><div class="kpi" id="kpi"></div>
+<div class="hw"><div class="tc" id="hc"></div><div class="tk" id="hm"></div></div>
+<div class="pl"><a data-go="table">Таблица</a><a data-go="games">Игры</a><a data-go="stats">Статистика</a><a data-go="disq">Дисквалификации</a></div></div>
+<div class="cue"></div></div></header>
+<section id="table"><h2 class="d rv">Таблица</h2><div class="tabs rv" id="tt"></div><div class="tb rv" id="tbl"></div></section>
+<section id="games"><h2 class="d rv">Игры</h2><div class="tabs rv" id="tours"></div><div id="ml"></div></section>
+<section id="stats"><h2 class="d rv">Статистика</h2><div class="tabs rv" id="st"></div><div class="cards" id="sc"></div></section>
+<section id="disq"><h2 class="d rv">Дисквалификации</h2><div id="dq"></div></section>
+<footer id="foot"></footer>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
+<script>
+const $=id=>document.getElementById(id),root=document.documentElement;
+const E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let D,S=[],M=[],P=[],RS={},tours=[],cur=null,tv=0,sv=0,ver='';const C={},L={};
+const played=r=>r[4]!==''&&r[5]!==''&&r[4]!=null&&r[5]!=null,isLg=r=>/^\d+$/.test(r[0]);
+const tl=t=>/^\d+$/.test(t)?'Тур '+t:t;
+const col=n=>C[n]||`hsl(${[...n].reduce((a,c)=>a+c.charCodeAt(0)*7,0)%360} 55% 45%)`;
+const bd=n=>`<span class="b" style="background:linear-gradient(135deg,${col(n)},#000 190%)">${E((n[0]||'?').toUpperCase())}${L[n]?`<img src="${E(L[n])}" alt="" onerror="this.remove()">`:''}</span>`;
+const ini=n=>n.split(' ').map(w=>w[0]).join('').slice(0,2);
+const empty=t=>`<div class="empty">${t}</div>`;
+const cmpT=(a,b)=>{const x=/^\d+$/.test(a),y=/^\d+$/.test(b);return x&&y?a-b:x?-1:y?1:0};
+const cmpM=(a,b)=>(a[1]+a[2]).localeCompare(b[1]+b[2])||cmpT(a[0],b[0]);
+const kind=(f,c)=>f>c?'W':f<c?'L':'D',kl=(f,c)=>f>c?'В':f<c?'П':'Н';
+
+function design(z){if(!z)return;const s=root.style;z.accent&&s.setProperty('--ac',z.accent);z.bg&&s.setProperty('--c1',z.bg);z.text&&s.setProperty('--c2',z.text)}
+function league(g){const n=g['Название']||'Лига',b=g['Бренд']||n,u=g['Логотип'];document.title=b+' · '+n;$('brand').textContent=b;$('h1').textContent=n;$('sea').textContent=g['Сезон']||'';$('desc').textContent=g['Описание']||'';$('hb').textContent=b;
+ for(const id of['lg','hlg']){const i=$(id);i.hidden=!u;if(u){i.onerror=()=>{i.hidden=true;$('hb').hidden=false};i.src=u}}$('hb').hidden=!!u}
+
+function count(el){const to=+el.dataset.to,dec=+el.dataset.d||0,t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/1500);el.textContent=(to*(1-Math.pow(1-k,4))).toFixed(dec);if(k<1)requestAnimationFrame(f)})(t0)}
+function reveal(){const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.1});document.querySelectorAll('.rv:not(.in)').forEach(el=>io.observe(el))}
+
+/* ---------- таблица ---------- */
+const RES=()=>{const R={};[...M.filter(isLg)].sort(cmpM).forEach(r=>{(R[r[3]]=R[r[3]]||[]).push([r[4],r[5],r[6]]);(R[r[6]]=R[r[6]]||[]).push([r[5],r[4],r[3]])});return R};
+function views(){const R=RES();return[
+()=>`<div class="r h"><div>М</div><div>Команда</div><div>И</div><div>В</div><div>Н</div><div>П</div><div>ГЗ</div><div>ГП</div><div>+/-</div><div>О</div><div>Форма</div></div>`+S.map((x,i)=>`<div class="r rv ${i==0?'z1':i==1?'z2':''}" data-team="${E(x.team)}" style="--i:${i}"><div class="p">${i+1}</div><div class="t">${bd(x.team)}<span>${E(x.team)}</span></div><div>${x.p}</div><div>${x.w}</div><div>${x.d}</div><div>${x.l}</div><div>${x.gf}</div><div>${x.ga}</div><div>${x.gf-x.ga>0?'+':''}${x.gf-x.ga}</div><div class="pt">${x.pts}</div><div class="f">${[...(x.form||'').slice(-5)].map(c=>`<i class="${{'В':'W','Н':'D','П':'L'}[c]}"></i>`).join('')}</div></div>`).join(''),
+()=>`<div class="cw"><table class="cx"><tr><th></th>${S.map(x=>`<th>${bd(x.team)}</th>`).join('')}</tr>${S.map(a=>`<tr><th class="l" data-team="${E(a.team)}"><div>${bd(a.team)}<span>${E(a.team)}</span></div></th>${S.map(b=>{if(a.team==b.team)return'<td class="x"></td>';const m=M.filter(r=>isLg(r)&&((r[3]==a.team&&r[6]==b.team)||(r[3]==b.team&&r[6]==a.team)));return'<td>'+(m.length?m.map(r=>{const h=r[3]==a.team,f=h?r[4]:r[5],c=h?r[5]:r[4];return`<b class="${kind(f,c)}t">${f}:${c}</b>`}).join('<br>'):'<span class="no">–</span>')+'</td>'}).join('')}</tr>`).join('')}</table></div>`,
+()=>S.map((x,i)=>`<div class="pg rv" data-team="${E(x.team)}" style="--i:${i}"><div class="p">${i+1}</div>${bd(x.team)}<div class="pn"><b>${E(x.team)}</b><div class="bar"><i style="--w:${x.pts/Math.max(1,x.p*3)*100}%"></i></div><small>${x.pts} из ${x.p*3} очков</small></div><div class="cs">${(R[x.team]||[]).map(([f,c,o])=>`<i class="${kind(f,c)}" title="${E(o)} ${f}:${c}">${kl(f,c)}</i>`).join('')}</div></div>`).join('')]}
+function paintT(){const v=views();$('tt').innerHTML=['Таблица','Шахматка','Прогресс'].map((t,i)=>`<button class="${i==tv?'on':''}" data-i="${i}">${t}</button>`).join('');
+ $('tbl').innerHTML=S.length?v[tv]():empty('Добавьте команды на листе «Команды»');document.querySelectorAll('#tt button').forEach(b=>b.onclick=()=>{tv=+b.dataset.i;paintT();reveal()})}
+
+/* ---------- игры ---------- */
+function mcard(r,i){const p=played(r),pen=r[7]===true&&p&&r[8]!==''&&r[9]!=='',d=r[4]==r[5],
+ hw=p&&(r[4]>r[5]||(d&&pen&&r[8]>r[9])),aw=p&&(r[5]>r[4]||(d&&pen&&r[9]>r[8]));
+ return`<div class="m rv ${p?'':'u'}" style="--i:${i}"><div class="mt">${E(r[2]||'—')}</div><div class="z ${hw?'w':''}">${bd(r[3])}${E(r[3])}</div><div class="s d">${p?r[4]+' : '+r[5]:'—'}${pen?`<small>пен. ${r[8]} : ${r[9]}</small>`:''}</div><div class="a ${aw?'w':''}">${E(r[6])}${bd(r[6])}</div></div>`}
+function paintG(){const chips=tours.map(t=>`<button class="${t==cur?'on':''}" data-t="${E(t)}">${E(tl(t))}</button>`).join('');
+ $('tours').innerHTML=chips;$('hc').innerHTML=chips;
+ $('hm').innerHTML=D.matches.filter(r=>r[0]==cur).sort(cmpM).map((r,i)=>{const p=played(r);return`<div class="mi" style="animation-delay:${i*50}ms"><span style="text-align:right">${E(r[3])}</span><b class="d">${p?r[4]+':'+r[5]:E(r[2]||'—')}</b><span>${E(r[6])}</span></div>`}).join('')||'<span class="no">Нет матчей</span>';
+ const g={};D.matches.filter(r=>r[0]==cur).forEach(r=>(g[r[1]]=g[r[1]]||[]).push(r));
+ $('ml').innerHTML=tours.length?Object.keys(g).sort().reverse().map(k=>`<div class="day rv">${k?new Date(k+'T12:00').toLocaleDateString('ru',{weekday:'long',day:'numeric',month:'long'}):'Дата уточняется'}</div>`+g[k].sort(cmpM).map(mcard).join('')).join(''):empty('Матчи появятся после заполнения листа «Матчи»');
+ document.querySelectorAll('#tours button,#hc button').forEach(b=>b.onclick=()=>{cur=b.dataset.t;paintG();reveal()})}
+
+/* ---------- статистика ---------- */
+const avg=(v,g)=>g?+(v/g).toFixed(2):0;
+const card=(i,media,name,st,cls='',tm='')=>`<div class="cd ${cls} rv" ${tm} style="--i:${i%5}"><em class="d">${i+1}</em>${media}<div class="nm">${E(name)}</div><div class="st">${st.map(([l,v])=>`<div><small>${l}</small><b class="d">${v}</b></div>`).join('')}</div></div>`;
+const pl=x=>`<div class="ph">${x.ph?`<img src="${E(x.ph)}" alt="" onerror="this.remove()">`:E(ini(x.n))}<div class="tl">${bd(x.t)}</div></div>`;
+const pc=(key,st)=>P.filter(x=>key(x)>0).sort((a,b)=>key(b)-key(a)||a.gm-b.gm).slice(0,15).map((x,i)=>card(i,pl(x),x.n,st(x))).join('');
+function svs(){return[['Бомбардиры',()=>pc(x=>x.g,x=>[['И',x.gm],['Г (Пн.)',x.pen?`${x.g} (${x.pen})`:x.g],['Ср.',avg(x.g,x.gm)]])],
+['Ассистенты',()=>pc(x=>x.a,x=>[['И',x.gm],['Пр',x.a],['Ср.',avg(x.a,x.gm)]])],
+['Гол + Пас',()=>pc(x=>x.g+x.a,x=>[['И',x.gm],['Г+П',x.g+x.a],['Г',x.g],['Пр',x.a]])],
+['Предупреждения',()=>pc(x=>x.yc+x.rc*2,x=>[['И',x.gm],['ЖК',x.yc],['КК',x.rc]])],
+['Команды',()=>S.map((x,i)=>{const sum=k=>P.filter(p=>p.t==x.team).reduce((a,p)=>a+p[k],0),cs=M.filter(r=>isLg(r)&&((r[3]==x.team&&r[5]==0)||(r[6]==x.team&&r[4]==0))).length;
+ return card(i,`<div class="ph big">${bd(x.team)}</div>`,x.team,[['И',x.p],['В',x.w],['Н',x.d],['П',x.l],['МЗ',x.gf],['МП',x.ga],['ЖК',sum('yc')],['КК',sum('rc')],["'0'",cs]],'t',`data-team="${E(x.team)}"`)}).join('')]]}
+function paintS(){const v=svs();$('st').innerHTML=v.map((t,i)=>`<button class="${i==sv?'on':''}" data-i="${i}">${t[0]}</button>`).join('');
+ $('sc').innerHTML=v[sv][1]()||empty('Пока нет данных — статистика считается из листов команд');document.querySelectorAll('#st button').forEach(b=>b.onclick=()=>{sv=+b.dataset.i;paintS();reveal()})}
+
+/* ---------- карточка команды ---------- */
+const ru=n=>n%10==1&&n%100!=11?'год':[2,3,4].includes(n%10)&&![12,13,14].includes(n%100)?'года':'лет';
+function closeT(){$('sheet').classList.remove('on');document.body.style.overflow=''}
+function openTeam(n,ev){const R=[...(RS[n]||[])].sort((a,b)=>a.n.localeCompare(b.n)),ag=R.map(x=>x.age).filter(a=>a!=='');
+ const av=ag.length?(ag.reduce((a,b)=>a+b,0)/ag.length).toFixed(1):'—',pos=S.findIndex(x=>x.team==n)+1,st=S[pos-1]||{pts:0},s=$('sheet');
+ s.style.setProperty('--cx',(ev?ev.clientX:innerWidth/2)+'px');s.style.setProperty('--cy',(ev?ev.clientY:innerHeight/2)+'px');s.style.setProperty('--tc',col(n));
+ s.innerHTML=`<button class="x" id="tx" aria-label="Закрыть">✕</button><div class="th"><div class="bg">${bd(n)}</div><div><h3 class="d">${E(n)}</h3><div class="ts">${pos?pos+'-е место · '+st.pts+' очк.':''}</div></div><div class="tk2"><div><b class="d">${R.length}</b>игроков в заявке</div><div><b class="d">${av}</b>средний возраст</div></div></div><div class="tmb"><div class="tr h"><div>№</div><div>Амплуа</div><div>Игрок</div><div>Дата рождения</div><div>И</div><div>Г</div><div>Пр</div><div class="yc"></div><div class="rc"></div></div>${R.map((x,i)=>`<div class="tr" style="--i:${i}"><div>${E(x.num)}</div><div>${E(x.pos)}</div><div class="pn2"><span class="av">${x.ph?`<img src="${E(x.ph)}" alt="" onerror="this.remove()">`:E(ini(x.n))}</span><span>${E(x.n)}</span></div><div>${x.dob?new Date(x.dob).toLocaleDateString('ru')+', '+x.age+' '+ru(x.age):x.age!==''?x.age+' '+ru(x.age):'—'}</div><div>${x.gm||'-'}</div><div>${x.g}</div><div>${x.a}</div><div>${x.yc}</div><div>${x.rc}</div></div>`).join('')||empty('Заявка пока пуста — заполните лист команды')}</div>`;
+ s.scrollTop=0;s.classList.add('on');document.body.style.overflow='hidden';$('tx').onclick=closeT}
+
+/* ---------- сборка ---------- */
+function main(d){D=d;Object.keys(C).forEach(k=>delete C[k]);Object.keys(L).forEach(k=>delete L[k]);
+ (d.teams||[]).forEach(t=>{if(t.c)C[t.n]=t.c;if(t.l)L[t.n]=t.l});
+ design(d.design);league(d.league||{});S=d.standings||[];M=d.matches.filter(played);RS=d.rosters||{};P=d.scorers||[];
+ const goals=M.reduce((a,r)=>a+r[4]+r[5],0);
+ $('kpi').innerHTML=[[(d.teams||[]).length,0,'команд'],[M.length,0,'матчей'],[goals,0,'голов'],[M.length?goals/M.length:0,1,'за матч']].map(k=>`<div class="d"><b data-to="${k[0]}" data-d="${k[1]}">0</b><span>${k[2]}</span></div>`).join('');
+ setTimeout(()=>document.querySelectorAll('[data-to]').forEach(count),250);
+ tours=[...new Set(d.matches.map(r=>r[0]))].sort(cmpT);
+ if(!tours.includes(cur))cur=[...M].sort(cmpM).map(r=>r[0]).pop()||tours[0]||null;
+ paintT();paintG();paintS();
+ $('dq').innerHTML=d.disq.length?d.disq.map((x,i)=>`<div class="dq rv" style="--i:${i}"><b>${E(x.n)}</b><em>${E(x.s)}/${E(x.tot)}</em><span>${E(x.t)} · ${E(x.r)}<br>${E(x.from)} — ${E(x.to)}</span></div>`).join(''):empty('Действующих дисквалификаций нет');
+ $('foot').textContent='Обновлено: '+new Date(d.updated||Date.now()).toLocaleString('ru');reveal()}
+
+/* ---------- данные и мгновенное обновление ---------- */
+let last='';
+function upd(d){ver=d.v||ver;const k=JSON.stringify({...d,updated:0,v:0});if(k===last)return;last=k;main(d)}
+function fail(){if(!D)document.body.insertAdjacentHTML('beforeend','<div class="err" id="er">Не удалось загрузить данные.<br><button onclick="location.reload()">Повторить</button></div>')}
+/* Данные приходят из веб-приложения Apps Script. Последний ответ хранится в браузере: при повторном заходе сайт рисуется мгновенно, свежие данные подтягиваются следом. */
+const API=window.API_URL,CK='mlfl:last',POLL=20000;
+const store={get(){try{return localStorage.getItem(CK)}catch(e){return null}},set(v){try{localStorage.setItem(CK,v)}catch(e){}}};
+async function req(q){const r=await fetch(API+'?api='+q,{cache:'no-store'});if(!r.ok)throw new Error(r.status);return q==='v'?(await r.text()).trim():r.json()}
+async function loadAll(){try{const d=await req(1);upd(d);store.set(JSON.stringify(d))}catch(e){fail()}}
+async function pull(){if(document.hidden||!API)return;try{const v=await req('v');if(v&&v!==ver)await loadAll()}catch(e){}}
+if(!API||/^ВСТАВЬТЕ/.test(API)){document.body.insertAdjacentHTML('beforeend','<div class="err">Укажите адрес веб-приложения Apps Script в начале index.html (window.API_URL).</div>')}
+else{const c=store.get();if(c){try{upd(JSON.parse(c))}catch(e){}}loadAll();setInterval(pull,POLL);document.addEventListener('visibilitychange',()=>{if(!document.hidden)pull()});addEventListener('online',pull)}
+
+/* ---------- интерактив ---------- */
+document.onclick=e=>{const g=e.target.closest('[data-go]');if(g){$(g.dataset.go).scrollIntoView({behavior:'smooth'});return}const t=e.target.closest('[data-team]');if(t)openTeam(t.dataset.team,e)};
+onkeydown=e=>e.key=='Escape'&&closeT();
+$('sc').addEventListener('pointermove',e=>{const c=e.target.closest('.cd');if(!c)return;const r=c.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;c.style.setProperty('--mx',x+'px');c.style.setProperty('--my',y+'px');c.style.setProperty('--px',((x/r.width-.5)*-10)+'px');c.style.setProperty('--py',((y/r.height-.5)*-10)+'px')});
+$('sc').addEventListener('pointerout',e=>{const c=e.target.closest('.cd');if(c){c.style.setProperty('--px','0px');c.style.setProperty('--py','0px')}});
+try{const s=localStorage.getItem('th');if(s)root.dataset.theme=s}catch(e){}
+$('th').onclick=()=>{const n=root.dataset.theme=='light'?'dark':'light';root.dataset.theme=n;try{localStorage.setItem('th',n)}catch(e){}};
+/* логотип статичен; раз в несколько секунд по нему пробегает блик (рисуется только по форме логотипа) */
+(()=>{if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+ const img=$('hlg'),cv=$('hlc'),ctx=cv.getContext('2d');
+ function glint(){if(document.hidden||img.hidden||!img.complete||!img.naturalWidth||img.getBoundingClientRect().bottom<0)return;
+  const dpr=devicePixelRatio||1,w=img.clientWidth,h=img.clientHeight;cv.width=w*dpr;cv.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+  const k=Math.min(w/img.naturalWidth,h/img.naturalHeight),dw=img.naturalWidth*k,dh=img.naturalHeight*k,dx=(w-dw)/2,dy=(h-dh)/2,t0=performance.now();
+  (function f(t){const q=Math.min(1,(t-t0)/1100),p=-.25+1.5*(q<.5?2*q*q:1-Math.pow(-2*q+2,2)/2);
+   ctx.globalCompositeOperation='source-over';ctx.clearRect(0,0,w,h);ctx.drawImage(img,dx,dy,dw,dh);
+   ctx.globalCompositeOperation='source-in';const g=ctx.createLinearGradient(w*(p-.16),0,w*(p+.16),h*.45);
+   g.addColorStop(0,'rgba(255,255,255,0)');g.addColorStop(.5,'rgba(255,255,255,.85)');g.addColorStop(1,'rgba(255,255,255,0)');
+   ctx.fillStyle=g;ctx.fillRect(0,0,w,h);if(q<1)requestAnimationFrame(f);else ctx.clearRect(0,0,w,h)})(t0)}
+ setTimeout(function loop(){glint();setTimeout(loop,5500)},1500);
+})();
+/* цвет акцента плавно следует за курсором на фоне сайта */
+(()=>{if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+ const g=$('cur');let x=0,y=0,tx=0,ty=0,run=false;
+ function f(){x+=(tx-x)*.12;y+=(ty-y)*.12;g.style.setProperty('--gx',x+'px');g.style.setProperty('--gy',y+'px');
+  if(Math.abs(tx-x)+Math.abs(ty-y)>.5)requestAnimationFrame(f);else run=false}
+ addEventListener('pointermove',e=>{tx=e.clientX;ty=e.clientY;if(!g.classList.contains('on')){x=tx;y=ty;g.classList.add('on')}if(!run){run=true;requestAnimationFrame(f)}},{passive:true});
+ document.documentElement.addEventListener('pointerleave',()=>g.classList.remove('on'));
+})();
+const ht=$('ht'),hl=$('hl'),hero=document.querySelector('.hero');
+addEventListener('scroll',()=>{const h=innerHeight*.8;if(scrollY>innerHeight*1.2)return;const p=Math.min(1,Math.max(0,scrollY/h));ht.style.transform=`translateY(${-p*30}px)`;ht.style.opacity=1-Math.max(0,(p-.55)*2.4)},{passive:true});
+</script></body></html>
